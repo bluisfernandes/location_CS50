@@ -30,8 +30,21 @@
 <body>
 	<form action="/location" method="post">
 		<div class="form-group">
-				<input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
+				<input autocomplete="off" autofocus class="form-control" name="username" placeholder="JSON format" type="text">
 		</div>
 		<button class="btn btn-primary" type="submit">Log In</button>
 	</form>
+
+	<p>
+		Examples:
+	</p>
+
+	<p>
+		{"id": 1, "name":"Onofre", "color":"blue", "city":null}
+	</p>
+
+	<p>
+		{"id": 1, "device": "santiago", "points":[{"lat": 123.456, "long": 987.654 },{"lat": 123.457, "long": 987.655 },{"lat": 123.458, "long": 987.656 }],"sensor_data":[0,500,550]} 
+	</p>
+
 </body>
