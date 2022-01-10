@@ -14,8 +14,8 @@ def index():
   	return '''
 		Its working!<br><br>
 		
-		/location<br>
-		/postjson<br>
+		<a href="/location">/location<a><br>
+		<a href="/postjson">/postjson<a><br>
 		'''
 
 
@@ -56,7 +56,7 @@ def postjson():
 
 		print(type(res.get_json()))
 		
-	return res 
+		return res 
 
 	return '''Try to post a JSON<br>
 					Example in <a href=https://colab.research.google.com/drive/1H-cBSzQcHqKl-CObhL1_tl76_76lynNX?usp=sharing>Colab<a>.'''
