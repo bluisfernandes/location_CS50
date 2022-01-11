@@ -1,4 +1,5 @@
 # from cs50 import SQL
+import os
 from flask import Flask, request, jsonify, render_template, make_response
 import json
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
@@ -80,14 +81,26 @@ def store_route(json_request):
 		
 		# return code of error and expected json 
 		return 403, {"message":"some parameters are missing","expected":{"id": 10, "device": "xxx", "points":[{"lat": 123.456, "long": 987.654 },{"lat": 123.457, "long": 987.655 }],"info":[{"point_id":0,"route_id":0,"sensor_light":13333.3,"timestamp":"2022-01-11T00:59:53.372"},{"point_id":1,"route_id":0,"sensor_light":13345.9,"timestamp":"2022-01-11T00:59:54.926"}]}}
+
+		
+	path = f'/home/runner/locationcs50/storage/{json_request["device"]}'
+		
+	if not os.path.exists(path):
+			os.makedirs(path)
+
+	name = json_request['info'][0]['timestamp']+"_"+str(len(json_request["points"]))
+
+	with open(f'{path}/{name}.txt', 'w') as file:
+			file.write(str(json_request))
 	
-	store_id = 0
-	json_request["device"]
-	json_request["id"]
-	json_request["info"][0]["timestamp"]
+
+	# store_id = 0
+	# json_request["device"]
+	# json_request["id"]
+	# json_request["info"][0]["timestamp"]
 	
-	json_request["points"]
-	json_request["info"]
+	# json_request["points"]
+	# json_request["info"]
 
 # TODO: store values on sqlite
 # user = db.execute("SELECT * FROM users WHERE id = ?", session["user_id"])
