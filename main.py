@@ -1,7 +1,4 @@
-import os
 from flask import Flask, request, jsonify, render_template, make_response
-import requests
-import urllib.parse
 import json
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 
@@ -54,7 +51,7 @@ def postjson():
 			print(f"__Response error: {formato}")
 
 
-		print(type(res.get_json()))
+		print((res.get_json()))
 		
 		return res 
 
