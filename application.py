@@ -25,18 +25,12 @@ def index():
 
 		<a href="/location">/location<a><br>
 		<a href="/postjson">/postjson<a><br>
-		<a href="/map">/map<a><br>
 		<a href="/maptest?n=1000">/maptest?n=1000<a><br>
+		<a href="/mappoints?n=5000">/mappoints?n=5000<a><br>
 		'''
 
-@app.route("/map", methods=['GET'])
-def map():
-	global n
-	n = int(request.args.get('n'))
-	geojson = geojson_rdm_multipoints(n)
-	return render_template("map.html", site_map=True, geojson = geojson)
 
-
+# TODO: redirect if there isnt a arg
 @app.route("/maptest", methods=['GET'])
 def map_test():
 	global n
@@ -53,24 +47,15 @@ def map_points():
 	return render_template("map_test1.html", site_map=True, geojson = geojson, script_src = 'script_points.js')
 
 
-@app.route("/maptest1")
-def map_test1():
-
-	geojson = geojson_rdm_multipoints(10)
-
-	return render_template("blank.html", title = f"erro: TESTE", content = geojson)
-
 @app.route("/script.js")
 def script():
 	geojson = geojson_rdm_multipoints(n)
-	print("está aqui no script")
 	return render_template("script.js", geojson = geojson)
 
 
 @app.route("/script_points.js")
 def script_points():
 	geojson = geojson_rdm_points(npoints)
-	print("entrou certo, no script points")
 	return render_template("script_points.js", geojson = geojson)
 
 
@@ -78,7 +63,6 @@ def script_points():
 def location():
 	if request.method == "POST":
 		a = request.form.get("username")
-
 		try:
 			b = json.loads(a)
 			if isinstance(b, dict):
@@ -180,4 +164,4 @@ for code in default_exceptions:
     app.errorhandler(code)(errorhandler)
 
 
-app.run(host='0.0.0.0', port=5000, debug=False) # Run the Application (in debug mode)
+app.run(host='0.0.0.0', port=5000, debug=False) # Run the Application
