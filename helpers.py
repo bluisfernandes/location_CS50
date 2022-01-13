@@ -59,3 +59,23 @@ def geojson_rdm_multipoints(n =100):
     return geojson
 
 print("hello")
+
+
+def geojson_rdm_points(n =100):
+    long1= -33.4051268999
+    long2 = -33.5042356
+    lat1 = -70.505497
+    lat2 = -70.8000687
+    latx = (lat1+lat2)/2
+    longx=(long1+long2)/2
+
+    areafeature=[]
+    for i in range(n):
+        areafeature.append(Feature(geometry=Point(coords_rdm(1,lat1,latx,long1,longx)[0]), properties={"area":1, "color":random.randrange(0, 25)}))
+        areafeature.append(Feature(geometry=Point(coords_rdm(1,lat2,latx,long1,longx)[0]), properties={"area":2, "color":random.randrange(25, 50)}))
+        areafeature.append(Feature(geometry=Point(coords_rdm(1,lat1,latx,long2,longx)[0]), properties={"area":3, "color":random.randrange(50, 75)}))
+        areafeature.append(Feature(geometry=Point(coords_rdm(1,lat2,latx,long2,longx)[0]), properties={"area":4, "color":random.randrange(75, 100)}))
+
+    geojson  = FeatureCollection(areafeature)
+
+    return geojson

@@ -3,7 +3,7 @@ import os
 from flask import Flask, request, jsonify, render_template, make_response
 import json
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
-from helpers import geojson_rdm_multipoints
+from helpers import geojson_rdm_multipoints, geojson_rdm_points
 
 # Configure application
 app = Flask(__name__)
@@ -16,6 +16,7 @@ app = Flask(__name__)
 #     raise RuntimeError("API_KEY not set")
 
 n = 1000
+npoints = 1000
 
 @app.route("/")
 def index():
@@ -25,7 +26,7 @@ def index():
 		<a href="/location">/location<a><br>
 		<a href="/postjson">/postjson<a><br>
 		<a href="/map">/map<a><br>
-		<a href="/maptest?n=10000">/maptest?n=10000<a><br>
+		<a href="/maptest?n=1000">/maptest?n=1000<a><br>
 		'''
 
 @app.route("/map", methods=['GET'])
@@ -43,6 +44,15 @@ def map_test():
 	geojson = geojson_rdm_multipoints(n)
 	return render_template("map_test.html", site_map=True, geojson = geojson)
 
+
+@app.route("/mappoints", methods=['GET'])
+def map_points():
+	global npoints
+	npoints = int(request.args.get('n'))
+	geojson = geojson_rdm_points(npoints)
+	return render_template("map_test1.html", site_map=True, geojson = geojson, script_src = 'script_points.js')
+
+
 @app.route("/maptest1")
 def map_test1():
 
@@ -53,7 +63,15 @@ def map_test1():
 @app.route("/script.js")
 def script():
 	geojson = geojson_rdm_multipoints(n)
+	print("está aqui no script")
 	return render_template("script.js", geojson = geojson)
+
+
+@app.route("/script_points.js")
+def script_points():
+	geojson = geojson_rdm_points(npoints)
+	print("entrou certo, no script points")
+	return render_template("script_points.js", geojson = geojson)
 
 
 @app.route('/location', methods=['POST', 'GET'])
