@@ -17,6 +17,7 @@ app = Flask(__name__)
 
 n = 1000
 npoints = 1000
+jsonlocation = {}
 
 @app.route("/")
 def index():
@@ -47,6 +48,26 @@ def map_points():
 	return render_template("map_test1.html", site_map=True, geojson = geojson, script_src = 'script_points.js')
 
 
+@app.route("/maplocation", methods=['POST', 'GET'])
+def map_location():
+	global jsonlocation
+	if request.method == "POST":
+		a = request.form.get("json")
+		try:
+			jsonlocation = json.loads(a)
+			if isinstance(jsonlocation, dict):
+				pass
+			else:
+				res = make_response(jsonify({"message": "must be JSON, its probably numeric"}), 405)
+		except:
+			return make_response(jsonify({"message": "must be JSON, its probably a string"}), 405)
+		# return res
+		print(f'the type of geojson here is {type(jsonlocation)}.')
+		return render_template("map_test1.html", site_map=True, geojson = jsonlocation, script_src = 'script_location.js')
+	else:
+		return render_template("maplocation.html")
+
+
 @app.route("/script.js")
 def script():
 	geojson = geojson_rdm_multipoints(n)
@@ -57,6 +78,12 @@ def script():
 def script_points():
 	geojson = geojson_rdm_points(npoints)
 	return render_template("script_points.js", geojson = geojson)
+
+
+@app.route("/script_location.js")
+def script_location():
+	global jsonlocation
+	return render_template("script_points.js", geojson = jsonlocation)
 
 
 @app.route('/location', methods=['POST', 'GET'])
