@@ -1,1 +1,0 @@
-{'id': 10, 'device': 'colab', 'points': [{'lat': 123.456, 'long': 987.654}, {'lat': 123.457, 'long': 987.655}], 'info': [{'point_id': 0, 'route_id': 0, 'sensor_light': 13333.3, 'timestamp': '2022-01-11T00:59:53.372'}, {'point_id': 1, 'route_id': 0, 'sensor_light': 13345.9, 'timestamp': '2022-01-11T00:59:54.926'}]}
