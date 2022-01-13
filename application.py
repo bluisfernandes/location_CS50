@@ -43,6 +43,10 @@ def map_test():
 	geojson = geojson_rdm_multipoints(n)
 	return render_template("map_test.html", site_map=True, geojson = geojson)
 
+@app.route("/maptest2")
+def map_test2():
+	return render_template("map_test_copy.html", site_map=True)
+
 @app.route("/maptest1")
 def map_test1():
 
