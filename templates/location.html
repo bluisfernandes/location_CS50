@@ -1,38 +1,16 @@
-<!DOCTYPE html>
+{% extends "layout.html" %}
 
-<html lang="en">
+{% block title %}
+    Post JSON
+{% endblock %}
 
-	<head>
+{% block main %}
 
-		<meta charset="utf-8">
-		<meta name="viewport" content="initial-scale=1, width=device-width">
-
-		<!-- http://getbootstrap.com/docs/4.5/ -->
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-		<!-- https://favicon.io/emoji-favicons/money-mouth-face/ -->
-		<link href="/static/favicon.ico" rel="icon">
-
-		<link href="/static/styles.css" rel="stylesheet">
-
-		<!-- http://getbootstrap.com/docs/4.5/ -->
-		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-
-		<title>Post JSON</title>
-
-	</head>
-
-
-
-
-<body>
 	<form action="/location" method="post">
 		<div class="form-group">
 				<input autocomplete="off" autofocus class="form-control" name="username" placeholder="JSON format" type="text">
 		</div>
-		<button class="btn btn-primary" type="submit">Log In</button>
+		<button class="btn btn-primary" type="submit">Check</button>
 	</form>
 
 	<p>
@@ -44,11 +22,14 @@
 	</p>
 
 	<p>
-		{"id": 1, "device": "santiago", "points":[{"lat": 123.456, "long": 987.654 },{"lat": 123.457, "long": 987.655 },{"lat": 123.458, "long": 987.656 }],"sensor_data":[0,500,550]} 
+		{"id": 1, "device": "santiago", "points":[{"lat": 123.456, "long": 987.654 },{"lat": 123.457, "long": 987.655 },{"lat": 123.458, "long": 987.656 }],"sensor_data":[0,500,550]}
 	</p>
 
 	<p>
-		{"id": 10, "device": "colab", "points":[{"lat": 123.456, "long": 987.654 },{"lat": 123.457, "long": 987.655 }],"info":[{"point_id":0,"route_id":0,"sensor_light":13333.3,"timestamp":"2022-01-11T00:59:53.372"},{"point_id":1,"route_id":0,"sensor_light":13345.9,"timestamp":"2022-01-11T00:59:54.926"}]} 
+		{"id": 10, "device": "colab", "points":[{"lat": 123.456, "long": 987.654 },{"lat": 123.457, "long": 987.655 }],"info":[{"point_id":0,"route_id":0,"sensor_light":13333.3,"timestamp":"2022-01-11T00:59:53.372"},{"point_id":1,"route_id":0,"sensor_light":13345.9,"timestamp":"2022-01-11T00:59:54.926"}]}
+	</p>
+	<p>	
+		{"type": "FeatureCollection", "features": [{"type": "Feature", "geometry": {"type": "MultiPoint", "coordinates": [[-70.64878, -33.43352], [-70.63941, -33.448862], [-70.63375, -33.426214], [-70.626494, -33.406916], [-70.620352, -33.422987], [-70.60356, -33.42218], [-70.602574, -33.415773], [-70.593359, -33.405213], [-70.590468, -33.419227], [-70.586044, -33.434603], [-70.585688, -33.4536], [-70.579871, -33.445732], [-70.569725, -33.428646], [-70.569325, -33.44721], [-70.564947, -33.433246], [-70.559941, -33.413113], [-70.53793, -33.409345], [-70.537127, -33.432088], [-70.520514, -33.448172], [-70.507656, -33.440201]]}, "properties": {"color": "red"}}, {"type": "Feature", "geometry": {"type": "MultiPoint", "coordinates": [[-70.779993, -33.442382], [-70.778515, -33.451871], [-70.776296, -33.424596], [-70.773655, -33.419727], [-70.767001, -33.451858], [-70.765024, -33.445563], [-70.762039, -33.442678], [-70.761782, -33.420581], [-70.741797, -33.429425], [-70.740957, -33.454647], [-70.737825, -33.435979], [-70.735021, -33.407695], [-70.72259, -33.426016], [-70.715203, -33.439977], [-70.714969, -33.424131], [-70.692295, -33.425002], [-70.675494, -33.43775], [-70.673747, -33.421934], [-70.672071, -33.407288], [-70.657032, -33.420695]]}, "properties": {"color": "green"}}, {"type": "Feature", "geometry": {"type": "MultiPoint", "coordinates": [[-70.650835, -33.466693], [-70.645893, -33.472237], [-70.625147, -33.49324], [-70.619998, -33.473835], [-70.611255, -33.464864], [-70.597341, -33.479742], [-70.588356, -33.473731], [-70.584669, -33.480592], [-70.571585, -33.495582], [-70.56975, -33.48406], [-70.558989, -33.485522], [-70.554483, -33.457087], [-70.543148, -33.460228], [-70.536478, -33.481672], [-70.53377, -33.490495], [-70.527944, -33.499681], [-70.527144, -33.489157], [-70.526626, -33.47565], [-70.520479, -33.495823], [-70.519573, -33.493454]]}, "properties": {"color": "blue"}}, {"type": "Feature", "geometry": {"type": "MultiPoint", "coordinates": [[-70.784151, -33.501604], [-70.780195, -33.457999], [-70.777152, -33.457398], [-70.774991, -33.480674], [-70.769403, -33.477638], [-70.768616, -33.489581], [-70.75823, -33.480927], [-70.754459, -33.462768], [-70.752916, -33.46481], [-70.745456, -33.494493], [-70.742759, -33.491725], [-70.740247, -33.470264], [-70.740246, -33.459851], [-70.734318, -33.493749], [-70.731946, -33.47256], [-70.715041, -33.461649], [-70.696274, -33.484283], [-70.688244, -33.495564], [-70.66453, -33.473911], [-70.658226, -33.469241]]}, "properties": {"color": "yellow"}}]}
 	</p>
 
-</body>
+{% endblock %}
