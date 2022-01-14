@@ -2,8 +2,8 @@
 	    const map = new mapboxgl.Map({
 	        container: 'map',
 	        style: 'mapbox://styles/mapbox/dark-v10',
-	        center: [-70.65278285,-33.45468124995],
-	        zoom: 12
+	        center: [-70.599517, -33.416503],
+	        zoom: 14
 	    });
 
 	    const geojson1 = {{ geojson }}
