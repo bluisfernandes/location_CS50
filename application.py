@@ -1,15 +1,18 @@
-# from cs50 import SQL
+from cs50 import SQL
 import os
 from flask import Flask, request, jsonify, render_template, make_response
 import json
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
-from helpers import geojson_rdm_multipoints, geojson_rdm_points, geojson_pointfeature, read_myjson, geojson_featurecollection, featurecollection
+from helpers import geojson_rdm_multipoints, geojson_rdm_points, geojson_pointfeature
+from helpers import read_myjson, geojson_featurecollection, featurecollection, store_data
 
 # Configure application
 app = Flask(__name__)
 
+
+
 # Configure CS50 Library to use SQLite database
-# db = SQL("sqlite:///finance.db")
+db = SQL("sqlite:///location.db")
 
 
 # if not os.environ.get("API_KEY"):
@@ -125,15 +128,16 @@ def location():
 @app.route('/postjson', methods=['POST', 'GET'])
 def postjson():
 	if request.method == "POST":
-		a = request.get_json()
+		json_app = request.get_json()
 
-		if isinstance(a, dict):
-			code, message = store_route(a)
+		if isinstance(json_app, dict):
+			# save poinsts from app in a file and SQL
+			code, message = store_route(json_app)
 			res = make_response(jsonify(message), code)
 			print(f"__response {code}")
 
 		else:
-			formato = f"must be JSON, its a {type(a)}"
+			formato = f"must be JSON, its a {type(json_app)}"
 			res = make_response(jsonify({"message": formato}), 405)
 			print(f"__Response error: {formato}")
 
@@ -146,7 +150,6 @@ def postjson():
 
 
 def store_route(json_request):
-
 	# check if there are all keys
 	try:
 		print("_______________________________")
@@ -158,13 +161,10 @@ def store_route(json_request):
 		print("______________")
 		print(json_request["info"][0])
 	except:
-
 		# return code of error and expected json
 		return 403, {"message":"some parameters are missing","expected":{"id": 10, "device": "xxx", "points":[{"lat": 123.456, "long": 987.654 },{"lat": 123.457, "long": 987.655 }],"info":[{"point_id":0,"route_id":0,"sensor_light":13333.3,"timestamp":"2022-01-11T00:59:53.372"},{"point_id":1,"route_id":0,"sensor_light":13345.9,"timestamp":"2022-01-11T00:59:54.926"}]}}
 
-
 	path = f'/home/runner/locationcs50/storage/{json_request["device"]}'
-
 	if not os.path.exists(path):
 			os.makedirs(path)
 
@@ -173,30 +173,18 @@ def store_route(json_request):
 	with open(f'{path}/{name}.txt', 'w') as file:
 			file.write(str(json_request))
 
-
 	#converts a json from app to a geojson
 	points = read_myjson(json_request)
+	# save in Database SQL
+	print(store_data(points))
+
+	# transform on a json
 	features = geojson_pointfeature(points)
 	global featurecollection
 	featurecollection = geojson_featurecollection(features)
 
-
-
-	# store_id = 0
-	# json_request["device"]
-	# json_request["id"]
-	# json_request["info"][0]["timestamp"]
-
-	# json_request["points"]
-	# json_request["info"]
-
-# TODO: store values on sqlite
-# user = db.execute("SELECT * FROM users WHERE id = ?", session["user_id"])
-# db.execute("INSERT INTO wallet(user_id, symbol, shares, user_id_symbol) VALUES (?, ?, ?, ?)",
-                      #  session['user_id'], stock['symbol'], shares, user_id_symbol)
-# db.execute("UPDATE wallet SET shares = ? WHERE user_id_symbol = ? ", shares, user_id_symbol)
-
-	return 200, json_request
+	res = {"timestamp":json["info"][0]["timestamp"], "size":len(json["points"])}
+	return 200, res
 
 
 def errorhandler(e):
