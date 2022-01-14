@@ -1,4 +1,5 @@
 import random
+from geojson import Feature, Point, MultiPoint, FeatureCollection
 
 
 
@@ -33,8 +34,6 @@ def interpola(x, min_i = 0, max_i = 100, min_o = 0, max_o = 1):
 
 # !pip install geojson
 # import geojson
-
-from geojson import Feature, Point, MultiPoint, FeatureCollection
 
 def geojson_rdm_multipoints(n =100):
     long1= -33.4051268999
@@ -79,3 +78,25 @@ def geojson_rdm_points(n =100):
     geojson  = FeatureCollection(areafeature)
 
     return geojson
+
+
+# Reads the json from android app and converts to a list of: [[long, lat, color, timestamp],]
+def read_myjson(json):
+    data =[]
+    for i in range(len(json["points"])):
+
+        data.append([json["points"][i]["long"], json["points"][i]["lat"], json["info"][i]["sensor_light"],json["info"][i]["timestamp"]])
+        return data
+
+
+# Converts the list of Attributes and convert to o pointfeatures
+def geojson_pointfeature(data):
+    pointfeature=[]
+    for i in range(len(data)):
+        pointfeature.append(Feature(geometry=Point([data[i][0],data[i][1]]), properties={"sensor":data[i][2],"timestamp": data[i][3]}))
+
+
+# Converts the list of Attributes and convert to o pointfeatures
+def geojson_featurecollection(pointfeature_list):
+    featurecollection = FeatureCollection(pointfeature_list)
+    return featurecollection
