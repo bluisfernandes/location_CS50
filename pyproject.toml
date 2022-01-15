@@ -8,6 +8,7 @@ authors = ["bluisfernandes <<>>"]
 python = "^3.8"
 Flask = "^2.0.2"
 geojson = "^2.5.0"
+cs50 = "^8.0.1"
 
 [tool.poetry.dev-dependencies]
 

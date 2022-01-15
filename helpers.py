@@ -1,5 +1,8 @@
+from cs50 import SQL
 import random
 from geojson import Feature, Point, MultiPoint, FeatureCollection
+
+db = SQL("sqlite:///location.db")
 
 
 

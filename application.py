@@ -183,8 +183,8 @@ def store_route(json_request):
 	global featurecollection
 	featurecollection = geojson_featurecollection(features)
 
-	res = {"timestamp":json["info"][0]["timestamp"], "size":len(json["points"])}
-	return 200, res
+	# res = {"timestamp":json["info"][0]["timestamp"], "size":len(json["points"])}
+	return 200, json_request
 
 
 def errorhandler(e):
