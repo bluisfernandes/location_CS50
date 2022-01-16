@@ -33,6 +33,7 @@ def index():
 		<a href="/maptest?n=1000">/maptest?n=1000<a><br>
 		<a href="/mappoints?n=2500">/mappoints?n=2500<a><br>
 		<a href="/lastmap">/lastmap<a><br>
+		<a href="/geral">/geral<a><br>
 		'''
 
 
@@ -99,6 +100,12 @@ def script_lastmaps():
 	return render_template("script_lastmap.js", geojson = featurecollection)
 
 
+@app.route("/script_geral.js")
+def script_geral():
+	global featurecollection_geral
+	return render_template("script_lastmap.js", geojson = featurecollection_geral)
+
+
 @app.route("/script_location.js")
 def script_location():
 	global jsonlocation
@@ -147,6 +154,24 @@ def postjson():
 
 	return '''Try to post a JSON<br>
 					Example in <a href=https://colab.research.google.com/drive/1H-cBSzQcHqKl-CObhL1_tl76_76lynNX?usp=sharing>Colab<a>.'''
+
+
+@app.route("/geral")
+def geral():
+	sql = db.execute("SELECT * FROM location")
+
+	points=[]
+	# [[long, lat, sensor, timestamp, user],]
+	for i in range(len(sql)):
+		points.append([sql[i]["long"], sql[i]["lat"] ,sql[i]["sensor"] ,sql[i]["timestamp"] ,sql[i]["user"] ])
+	# sql_mode = db.execute(".mode list")
+
+	features = geojson_pointfeature(points)
+
+	global featurecollection_geral
+	featurecollection_geral = geojson_featurecollection(features)
+	print(featurecollection_geral)
+	return render_template("map_test1.html", site_map=True, geojson = featurecollection_geral, script_src = 'script_geral.js')
 
 
 def store_route(json_request):
