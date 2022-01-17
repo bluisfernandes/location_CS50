@@ -170,7 +170,7 @@ def geral():
 
 	global featurecollection_geral
 	featurecollection_geral = geojson_featurecollection(features)
-	print(featurecollection_geral)
+	# print(featurecollection_geral)
 	return render_template("map_test1.html", site_map=True, geojson = featurecollection_geral, script_src = 'script_geral.js')
 
 
