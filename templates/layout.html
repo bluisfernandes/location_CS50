@@ -44,7 +44,7 @@
 			});
 
 			map.on('load', () => {
-				map.addSource('national-park', {
+				map.addSource('points_geojson', {
 					'type': 'geojson',
 					'data': {{ geojson | tojson }}
 				});
@@ -52,7 +52,7 @@
 				map.addLayer({
 					'id': 'x',
 					'type': 'circle',
-					'source': 'national-park',
+					'source': 'points_geojson',
 					'paint': {
 						'circle-radius': {
 							'base': 1.75,
