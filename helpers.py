@@ -1,6 +1,8 @@
 from cs50 import SQL
 import random
 from geojson import Feature, Point, MultiPoint, FeatureCollection
+import json
+import os
 
 db = SQL("sqlite:///location.db")
 
@@ -106,6 +108,8 @@ def geojson_featurecollection(pointfeature_list):
     return featurecollection
 
 
+# Store points from read_myjson in SQL
+# [[long, lat, sensor, timestamp, user],]
 def store_data(data):
     for i in range(len(data)):
         try:
@@ -123,6 +127,23 @@ def store_data(data):
     else:
         # print("deu ruim,return 0")
         return 0
+
+
+# Read all files in /storage and try to save in SQL
+def read_folder_myjson(folder = "storage"):
+    geojson_list=[]
+    dir_path = os.path.dirname(os.path.realpath(__file__))+"/"+folder
+    files = os.listdir(dir_path)
+
+    for file in files:
+        with open(f"{folder}/{file}",'r') as content:
+            try:
+                geojson=json.loads(content.read().replace("'",'"'))
+                geojson_list.append(geojson)
+            except:
+                print(f"ERROR: {file} is not a JSON")
+
+    return geojson_list
 
 
 
