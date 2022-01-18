@@ -1,7 +1,7 @@
 from helpers import read_myjson, store_data, read_folder_myjson
 
 # Read all files in "folder=storage" and try to save in SQL
-geojson_list = read_folder_myjson()
+geojson_list = read_folder_myjson("storage/santiago")
 
 for geojson in geojson_list:
 
