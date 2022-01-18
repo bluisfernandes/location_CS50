@@ -28,22 +28,13 @@ def index():
   	return '''
 		Its working!<br><br>
 
-		<a href="/location">/location<a><br>
+		<a href="/checkjson">/checkjson<a><br>
 		<a href="/postjson">/postjson<a><br>
-		<a href="/maptest?n=1000">/maptest?n=1000<a><br>
 		<a href="/mappoints?n=2500">/mappoints?n=2500<a><br>
+		<a href="/inputapplocation">/inputapplocation<a><br>
 		<a href="/lastmap">/lastmap<a><br>
 		<a href="/geral">/geral<a><br>
 		'''
-
-
-# TODO: redirect if there isnt a arg
-@app.route("/maptest", methods=['GET'])
-def map_test():
-	global n
-	n = int(request.args.get('n'))
-	geojson = geojson_rdm_multipoints(n)
-	return render_template("map_test.html", site_map=True, geojson = geojson)
 
 
 @app.route("/mappoints", methods=['GET'])
@@ -54,7 +45,7 @@ def map_points():
 	return render_template("map_test1.html", site_map=True, geojson = geojson, script_src = 'script_points.js')
 
 
-@app.route("/maplocation", methods=['POST', 'GET'])
+@app.route("/inputapplocation", methods=['POST', 'GET'])
 def map_location():
 	global jsonlocation
 	if request.method == "POST":
@@ -90,7 +81,6 @@ def script():
 @app.route("/script_points.js")
 def script_points():
 	geojson = geojson_rdm_points(npoints)
-	print(geojson)
 	return render_template("script_points.js", geojson = geojson)
 
 
@@ -112,7 +102,7 @@ def script_location():
 	return render_template("script_points.js", geojson = jsonlocation)
 
 
-@app.route('/location', methods=['POST', 'GET'])
+@app.route('/checkjson', methods=['POST', 'GET'])
 def location():
 	if request.method == "POST":
 		a = request.form.get("username")
