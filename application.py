@@ -19,30 +19,19 @@ db = SQL("sqlite:///location.db")
 #     raise RuntimeError("API_KEY not set")
 
 n = 1000
-npoints = 1000
 jsonlocation = {}
 featurecollection
 
 @app.route("/")
 def index():
-  	return '''
-		Its working!<br><br>
-
-		<a href="/checkjson">/checkjson<a><br>
-		<a href="/postjson">/postjson<a><br>
-		<a href="/mappoints?n=2500">/mappoints?n=2500<a><br>
-		<a href="/inputapplocation">/inputapplocation<a><br>
-		<a href="/lastmap">/lastmap<a><br>
-		<a href="/geral">/geral<a><br>
-		'''
+  	return render_template("index.html", title="location cs50")
 
 
 @app.route("/mappoints", methods=['GET'])
 def map_points():
-	global npoints
 	npoints = int(request.args.get('n'))
 	geojson = geojson_rdm_points(npoints)
-	return render_template("map_test1.html", site_map=True, geojson = geojson, script_src = 'script_points.js')
+	return render_template("blank.html", title ="mappoints", geojson = geojson)
 
 
 @app.route("/inputapplocation", methods=['POST', 'GET'])
@@ -60,46 +49,15 @@ def map_location():
 			return make_response(jsonify({"message": "must be JSON, its probably a string"}), 405)
 		# return res
 		print(f'the type of geojson here is {type(jsonlocation)}.')
-		return render_template("map_test1.html", site_map=True, geojson = jsonlocation, script_src = 'script_location.js')
+		return render_template("blank.html", title ="input app location", geojson = jsonlocation)
 	else:
-		return render_template("maplocation.html")
-
+		return render_template("inputapplocation.html")
 
 	
 @app.route("/lastmap", methods=['GET'])
 def map_last_map():
 	global featurecollection
-	return render_template("map_test1.html", site_map=True, geojson = featurecollection, script_src = 'script_lastmap.js')
-
-
-@app.route("/script.js")
-def script():
-	geojson = geojson_rdm_multipoints(n)
-	return render_template("script.js", geojson = geojson)
-
-
-@app.route("/script_points.js")
-def script_points():
-	geojson = geojson_rdm_points(npoints)
-	return render_template("script_points.js", geojson = geojson)
-
-
-@app.route("/script_lastmap.js")
-def script_lastmaps():
-	global featurecollection
-	return render_template("script_lastmap.js", geojson = featurecollection)
-
-
-@app.route("/script_geral.js")
-def script_geral():
-	global featurecollection_geral
-	return render_template("script_lastmap.js", geojson = featurecollection_geral)
-
-
-@app.route("/script_location.js")
-def script_location():
-	global jsonlocation
-	return render_template("script_points.js", geojson = jsonlocation)
+	return render_template("blank.html", title ="lastmap", geojson = featurecollection)
 
 
 @app.route('/checkjson', methods=['POST', 'GET'])
@@ -118,7 +76,7 @@ def location():
 
 		return res
 
-	return render_template("location.html")
+	return render_template("locatioch.html")
 
 
 # Used to communicate with Android APP or colab
@@ -154,14 +112,12 @@ def geral():
 	# [[long, lat, sensor, timestamp, user],]
 	for i in range(len(sql)):
 		points.append([sql[i]["long"], sql[i]["lat"] ,sql[i]["sensor"] ,sql[i]["timestamp"] ,sql[i]["user"] ])
-	# sql_mode = db.execute(".mode list")
 
 	features = geojson_pointfeature(points)
 
-	global featurecollection_geral
 	featurecollection_geral = geojson_featurecollection(features)
 	# print(featurecollection_geral)
-	return render_template("map_test1.html", site_map=True, geojson = featurecollection_geral, script_src = 'script_geral.js')
+	return render_template("blank.html", title = "geral", geojson = featurecollection_geral)
 
 
 def store_route(json_request):
@@ -207,6 +163,7 @@ def errorhandler(e):
     if not isinstance(e, HTTPException):
         e = InternalServerError()
     return apology(e.name, e.code)
+
 
 def apology(msg, code=400):
 	msg_site = "ERROR! name: " +msg + " code: " + str(code)
