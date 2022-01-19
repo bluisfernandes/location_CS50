@@ -26,13 +26,25 @@ featurecollection
 def index():
   	return render_template("index.html", title="location cs50")
   	
+  	
 @app.route("/how")
 def how():
   	return render_template("how.html", title="how")
   	
+  	
 @app.route("/device")
 def device():
   	return render_template("device.html", title="device")
+  	
+
+@app.route("/custom_map")
+def custom():
+  	return render_template("map_custom.html", title="admin")
+  	
+  	
+@app.route("/admin")
+def admin():
+  	return render_template("admin.html", title="admin")
 
 
 @app.route("/mappoints", methods=['GET'])
