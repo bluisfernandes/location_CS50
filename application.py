@@ -37,9 +37,19 @@ def device():
   	return render_template("device.html", title="device")
   	
 
-@app.route("/custom_map")
-def custom():
-  	return render_template("map_custom.html", title="admin")
+@app.route("/custom")
+def custom_map():
+  	return render_template("map_custom.html", title="custom map")
+  	
+  
+@app.route("/mapday")
+def mapday():
+  	return apology("Under construction", code=204)
+  	
+
+@app.route("/mapnight")
+def mapnight():
+  	return apology("Under construction.", code=204)
   	
   	
 @app.route("/admin")
@@ -186,8 +196,8 @@ def errorhandler(e):
 
 
 def apology(msg, code=400):
-	msg_site = "ERROR! name: " +msg + " code: " + str(code)
-	return render_template("blank.html", title = f"erro: {code}", content = msg_site)
+	msg_site = msg + "<br>code: " + str(code)
+	return render_template("apology.html", title = f"error: {code}", content = msg_site )
 
 
 # Listen for errors
