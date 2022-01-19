@@ -51,9 +51,6 @@ def custom_map():
 		if endtime == None:
 			endtime = starttime
 
-
-		print(endtime == None)
-
 		datapoints = search_db_time(int(starttime), int(endtime))
 		geojson = db_to_geojson(datapoints)
 
@@ -70,12 +67,19 @@ def render_custom():
 # TODO
 @app.route("/mapday")
 def mapday():
-  	return apology("Under construction", code=204)
+	datapoints = search_db_time(6, 21)
+	geojson = db_to_geojson(datapoints)
+
+	return render_template("blank.html", title = "map at day", geojson = geojson)
+  	
   	
 # TODO
 @app.route("/mapnight")
 def mapnight():
-  	return apology("Under construction.", code=204)
+	datapoints = search_db_time(22, 5)
+	geojson = db_to_geojson(datapoints)
+
+	return render_template("blank.html", title = "map at night", geojson = geojson)
   	
   	
 @app.route("/admin")
