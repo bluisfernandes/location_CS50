@@ -25,6 +25,14 @@ featurecollection
 @app.route("/")
 def index():
   	return render_template("index.html", title="location cs50")
+  	
+@app.route("/how")
+def how():
+  	return render_template("how.html", title="how")
+  	
+@app.route("/device")
+def device():
+  	return render_template("device.html", title="device")
 
 
 @app.route("/mappoints", methods=['GET'])
