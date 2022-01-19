@@ -28,12 +28,22 @@
 								[22, 180]
 								]
 						},
+						{% if night is defined %}
+						'circle-color': {
+							property: 'sensor',
+							stops: [
+								[0, '#e55e5e'],
+								[100, '#f1f075']
+								]
+						{% else %}
 						'circle-color': {
 							property: 'sensor',
 							stops: [
 								[0, '#e55e5e'],
 								[12294, '#f1f075']
 								]
+
+						{% endif %}
 						},
 						'circle-opacity': 0.5
 					}

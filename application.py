@@ -79,7 +79,7 @@ def mapnight():
 	datapoints = search_db_time(22, 5)
 	geojson = db_to_geojson(datapoints)
 
-	return render_template("blank.html", title = "map at night", geojson = geojson)
+	return render_template("blank.html", title = "map at night", geojson = geojson, night = "night")
   	
   	
 @app.route("/admin")
