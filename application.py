@@ -54,7 +54,7 @@ def custom_map():
 		datapoints = search_db_time(int(starttime), int(endtime))
 		geojson = db_to_geojson(datapoints)
 
-		return render_template("blank.html", title = "custom", geojson = geojson)
+		return render_template("blank.html", title = "custom map", geojson = geojson)
 		
 		# return render_template("blank.html", content =f"start: {starttime}\nend: {endtime}", title="TODO")
 	
@@ -62,7 +62,7 @@ def custom_map():
 
 def render_custom():
 	time = list(range(0,25))
-	return render_template("map_custom.html", title="custom map", content = "custom", time=time)
+	return render_template("custom.html", title="custom map", content = "Select a time to plot on map", time=time)
   	
 # TODO
 @app.route("/mapday")
