@@ -36,17 +36,17 @@ def how():
 def device():
   	return render_template("device.html", title="device")
   	
-
+# TODO
 @app.route("/custom")
 def custom_map():
-  	return render_template("map_custom.html", title="custom map")
+  	return render_template("map_custom.html", title="custom map", content = "custom")
   	
-  
+# TODO
 @app.route("/mapday")
 def mapday():
   	return apology("Under construction", code=204)
   	
-
+# TODO
 @app.route("/mapnight")
 def mapnight():
   	return apology("Under construction.", code=204)
