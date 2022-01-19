@@ -53,12 +53,24 @@ def custom_map():
 
 		datapoints = search_db_time(int(starttime), int(endtime))
 		geojson = db_to_geojson(datapoints)
+		
+		night = is_night(int(starttime), int(endtime))
+		style = night*'dark'
 
-		return render_template("blank.html", title = "custom map", geojson = geojson)
+		return render_template("blank.html", title = "custom map", geojson = geojson, night = night, style = style)
 		
 		# return render_template("blank.html", content =f"start: {starttime}\nend: {endtime}", title="TODO")
-	
 	return render_custom()
+
+def is_night(starttime, endtime):
+	if endtime < starttime:
+		is_night = True
+	else:
+		if endtime >= 21 or starttime < 6:
+			is_night = True
+		else:
+			is_night = False
+	return is_night
 
 def render_custom():
 	time = list(range(0,25))
@@ -78,9 +90,24 @@ def mapday():
 def mapnight():
 	datapoints = search_db_time(22, 5)
 	geojson = db_to_geojson(datapoints)
+	return render_template("blank.html", title = "map at night", geojson = geojson, style = 'dark', night = True)
 
-	return render_template("blank.html", title = "map at night", geojson = geojson, night = "night")
-  	
+
+@app.route("/geral")
+def geral():
+	sql = db.execute("SELECT * FROM location")
+
+	points=[]
+	# [[long, lat, sensor, timestamp, user],]
+	for i in range(len(sql)):
+		points.append([sql[i]["long"], sql[i]["lat"] ,sql[i]["sensor"] ,sql[i]["timestamp"] ,sql[i]["user"] ])
+
+	features = geojson_pointfeature(points)
+
+	featurecollection_geral = geojson_featurecollection(features)
+	# print(featurecollection_geral)
+	return render_template("blank.html", title = "geral", geojson = featurecollection_geral, style = 'dark', night = True)
+
   	
 @app.route("/admin")
 def admin():
@@ -162,22 +189,6 @@ def postjson():
 
 	return '''Try to post a JSON<br>
 					Example in <a href=https://colab.research.google.com/drive/1H-cBSzQcHqKl-CObhL1_tl76_76lynNX?usp=sharing>Colab<a>.'''
-
-
-@app.route("/geral")
-def geral():
-	sql = db.execute("SELECT * FROM location")
-
-	points=[]
-	# [[long, lat, sensor, timestamp, user],]
-	for i in range(len(sql)):
-		points.append([sql[i]["long"], sql[i]["lat"] ,sql[i]["sensor"] ,sql[i]["timestamp"] ,sql[i]["user"] ])
-
-	features = geojson_pointfeature(points)
-
-	featurecollection_geral = geojson_featurecollection(features)
-	# print(featurecollection_geral)
-	return render_template("blank.html", title = "geral", geojson = featurecollection_geral)
 
 
 def store_route(json_request):

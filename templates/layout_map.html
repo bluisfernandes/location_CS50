@@ -5,7 +5,15 @@
 			mapboxgl.accessToken = 'pk.eyJ1IjoiYmx1aXNmZXJuYW5kZXMiLCJhIjoiY2t0MjRvdmY2MGhrajJubzJ3NHdtNGFhbiJ9.ETbidupITC5LM0SD_JH57A';
 			const map = new mapboxgl.Map({
 				container: 'map',
+				{% if 'dark' == style %}
+				{# monochrom_dark #}
 				style: 'mapbox://styles/bluisfernandes/ckyj5i1p12jb214q9arw9dsyf',
+				{% else %}
+				{# monochrom_light #}
+				style: 'mapbox://styles/bluisfernandes/ckylzcdk50wzy14s9dv9amkdn',
+				{% endif %}
+				
+				
 				center: [-70.599517, -33.416503],
 				zoom: 14
 			});
@@ -28,12 +36,12 @@
 								[22, 180]
 								]
 						},
-						{% if night is defined %}
+						{% if night is sameas true %}
 						'circle-color': {
 							property: 'sensor',
 							stops: [
 								[0, '#e55e5e'],
-								[100, '#f1f075']
+								[80, '#f1f075']
 								]
 						{% else %}
 						'circle-color': {
@@ -45,7 +53,7 @@
 
 						{% endif %}
 						},
-						'circle-opacity': 0.5
+						'circle-opacity': 0.3
 					}
 				});
 			});
