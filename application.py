@@ -4,7 +4,8 @@ from flask import Flask, request, jsonify, render_template, make_response
 import json
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from helpers import geojson_rdm_multipoints, geojson_rdm_points, geojson_pointfeature
-from helpers import read_myjson, geojson_featurecollection, featurecollection, store_data
+from helpers import read_myjson, geojson_featurecollection, featurecollection, store_data 
+from helpers import db_to_geojson, search_db_time
 
 # Configure application
 app = Flask(__name__)
@@ -42,10 +43,29 @@ def custom_map():
 	if request.method == 'POST':
 		starttime = request.form.get("starttime")
 		endtime = request.form.get("endtime")
-		return render_template("blank.html", content =f"start: {starttime}\nend: {endtime}", title="TODO")
-	else:
-		time = list(range(0,24))
-		return render_template("map_custom.html", title="custom map", content = "custom", time=time)
+		
+		if starttime == None:
+			return render_custom()
+		if starttime == '24':
+			starttime = '0'
+		if endtime == None:
+			endtime = starttime
+
+
+		print(endtime == None)
+
+		datapoints = search_db_time(int(starttime), int(endtime))
+		geojson = db_to_geojson(datapoints)
+
+		return render_template("blank.html", title = "custom", geojson = geojson)
+		
+		# return render_template("blank.html", content =f"start: {starttime}\nend: {endtime}", title="TODO")
+	
+	return render_custom()
+
+def render_custom():
+	time = list(range(0,25))
+	return render_template("map_custom.html", title="custom map", content = "custom", time=time)
   	
 # TODO
 @app.route("/mapday")

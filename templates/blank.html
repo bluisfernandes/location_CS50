@@ -6,7 +6,8 @@
     
 {% endblock %}
 {% block main %}
-
+    {% if content is defined%}
 	<div class="text-center my-3">{{ content }}</div>
+    {% endif %}
 
 {% endblock %}
