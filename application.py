@@ -37,9 +37,15 @@ def device():
   	return render_template("device.html", title="device")
   	
 # TODO
-@app.route("/custom")
+@app.route("/custom", methods=['POST', 'GET'])
 def custom_map():
-  	return render_template("map_custom.html", title="custom map", content = "custom")
+	if request.method == 'POST':
+		starttime = request.form.get("starttime")
+		endtime = request.form.get("endtime")
+		return render_template("blank.html", content =f"start: {starttime}\nend: {endtime}", title="TODO")
+	else:
+		time = list(range(0,24))
+		return render_template("map_custom.html", title="custom map", content = "custom", time=time)
   	
 # TODO
 @app.route("/mapday")
