@@ -95,8 +95,8 @@ def mapnight():
 	return render_template("blank.html", title = "map at night", geojson = geojson, style = 'dark', night = True)
 
 
-@app.route("/geral")
-def geral():
+@app.route("/general")
+def general():
 	sql = db.execute("SELECT * FROM location")
 
 	points=[]
@@ -106,9 +106,9 @@ def geral():
 
 	features = geojson_pointfeature(points)
 
-	featurecollection_geral = geojson_featurecollection(features)
-	# print(featurecollection_geral)
-	return render_template("blank.html", title = "geral", geojson = featurecollection_geral, style = 'dark', night = True)
+	featurecollection_general = geojson_featurecollection(features)
+
+	return render_template("blank.html", title = "general", geojson = featurecollection_general, style = 'dark', night = True)
 
   	
 @app.route("/admin")
