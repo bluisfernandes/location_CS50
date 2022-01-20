@@ -43,6 +43,8 @@ def custom_map():
 	if request.method == 'POST':
 		starttime = request.form.get("starttime")
 		endtime = request.form.get("endtime")
+		color1 = request.form.get("color1")
+		color2 = request.form.get("color2")
 		
 		if starttime == None:
 			return render_custom()
@@ -57,7 +59,7 @@ def custom_map():
 		night = is_night(int(starttime), int(endtime))
 		style = night*'dark'
 
-		return render_template("blank.html", title = "custom map", geojson = geojson, night = night, style = style)
+		return render_template("blank.html", title="custom map", geojson=geojson, night=night, style=style, color1=color1, color2=color2)
 		
 		# return render_template("blank.html", content =f"start: {starttime}\nend: {endtime}", title="TODO")
 	return render_custom()
