@@ -10,7 +10,7 @@ from helpers import db_to_geojson, search_db_time
 # Configure application
 app = Flask(__name__)
 
-
+#now with heroku
 
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///location.db")
