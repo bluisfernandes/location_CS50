@@ -15,7 +15,7 @@
 				
 				
 				center: [-70.599517, -33.416503],
-				zoom: 14
+				zoom: 16
 			});
 
 			map.on('load', () => {
@@ -30,10 +30,10 @@
 					'source': 'points_geojson',
 					'paint': {
 						'circle-radius': {
-							'base': 1.75,
+							'base': 2,
 							'stops': [
-								[12, 2],
-								[22, 180]
+								[15, 1.4],
+								[22, 80]
 								]
 						},
 						{% if night is sameas true %}
@@ -72,7 +72,27 @@
 
 						{% endif %}
 						},
-						'circle-opacity': 0.5
+						'circle-opacity': 0.8,
+						'circle-stroke-width': {
+							'base': 2,
+							'stops': [
+								[15, 1.4],
+								[22, 80]
+								]
+						},
+						'circle-stroke-color': {
+							property: 'sensor',
+							stops: [
+								[0, '#e55e5e'],
+								[80, '#f1f075']
+								]},
+						'circle-stroke-opacity': {
+							'base': 2,
+							'stops': [
+								[15, 0.8],
+								[20, 0.5]
+								]
+						}
 					}
 				});
 			});
