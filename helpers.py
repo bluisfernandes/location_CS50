@@ -148,11 +148,11 @@ def read_folder_myjson(folder = "storage"):
 # Search datapoints on db by time
 def search_db_time(starttime, endtime):
     if endtime > starttime:
-        # return f"{starttime} <= time <= {endtime}"
-        where = f"time(timestamp) >= '{starttime:02d}' AND time(timestamp) <= '{endtime:02d}'"
+        # return f"{starttime} <= time < {endtime}"
+        where = f"time(timestamp) >= '{starttime:02d}' AND time(timestamp) < '{endtime:02d}'"
     elif endtime < starttime:
-        # return f"time <= {endtime} or time >= {starttime}"
-        where = f"time(timestamp) <= '{endtime:02d}' OR time(timestamp) >= '{starttime:02d}'"
+        # return f"time < {endtime} or time >= {starttime}"
+        where = f"time(timestamp) < '{endtime:02d}' OR time(timestamp) >= '{starttime:02d}'"
     else:
        # return f"time = {starttime}"
         where = f"time(timestamp) >= '{starttime:02d}' AND time(timestamp) < '{(starttime +1):02d}'"
