@@ -43,14 +43,16 @@
 							stops: [
 								[0, '{{color1}}'],
 								[80, '{{color2}}']
-								]
+								]}
+
 							{% else %}
 						'circle-color': {
 							property: 'sensor',
 							stops: [
 								[0, '#e55e5e'],
 								[80, '#f1f075']
-								]
+								]}
+
 							{% endif%}
 
 						{% else %}
@@ -60,18 +62,20 @@
 							stops: [
 								[0, '{{color1}}'],
 								[12294, '{{color2}}']
-								]
+								]}
+
 							{% else %}
 						'circle-color': {
 							property: 'sensor',
 							stops: [
 								[0, '#e55e5e'],
 								[12294, '#f1f075']
-								]
+								]}
+
 							{% endif%}
 
 						{% endif %}
-						},
+						,
 						'circle-opacity': 0.8,
 						'circle-stroke-width': {
 							'base': 2,
