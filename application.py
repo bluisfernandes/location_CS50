@@ -248,4 +248,5 @@ for code in default_exceptions:
     app.errorhandler(code)(errorhandler)
 
 
-app.run(host='0.0.0.0', port=5000, debug=False) # Run the Application
+# trying without app.run to heroku
+# app.run(host='0.0.0.0', port=5000, debug=False) # Run the Application
