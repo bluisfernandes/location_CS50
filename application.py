@@ -23,9 +23,10 @@ n = 1000
 jsonlocation = {}
 featurecollection
 
+
 @app.route("/")
 def index():
-  	return render_template("index.html", title="location cs50")
+	return render_template("index.html", title="location cs50")
   	
   	
 @app.route("/how")
@@ -37,7 +38,7 @@ def how():
 def device():
   	return render_template("device.html", title="device")
   	
-# TODO
+
 @app.route("/custom", methods=['POST', 'GET'])
 def custom_map():
 	if request.method == 'POST':
@@ -64,6 +65,7 @@ def custom_map():
 		# return render_template("blank.html", content =f"start: {starttime}\nend: {endtime}", title="TODO")
 	return render_custom()
 
+
 def is_night(starttime, endtime):
 	if endtime < starttime:
 		is_night = True
@@ -75,8 +77,8 @@ def is_night(starttime, endtime):
 	return is_night
 
 def render_custom():
-	time = list(range(0,25))
-	return render_template("custom.html", title="custom map", content = "Select a time to plot on map", time=time)
+	time = list(range(0, 25))
+	return render_template("custom.html", title="custom map", content="Select a time to plot on map", time=time)
   	
 # TODO
 @app.route("/mapday")
@@ -84,31 +86,30 @@ def mapday():
 	datapoints = search_db_time(6, 21)
 	geojson = db_to_geojson(datapoints)
 
-	return render_template("blank.html", title = "map at day", geojson = geojson)
+	return render_template("blank.html", title="map at day", geojson=geojson)
   	
-  	
-# TODO
+
 @app.route("/mapnight")
 def mapnight():
 	datapoints = search_db_time(22, 5)
 	geojson = db_to_geojson(datapoints)
-	return render_template("blank.html", title = "map at night", geojson = geojson, style = 'dark', night = True)
+	return render_template("blank.html", title="map at night", geojson=geojson, style='dark', night=True)
 
 
 @app.route("/general")
 def general():
 	sql = db.execute("SELECT * FROM location")
 
-	points=[]
+	points = []
 	# [[long, lat, sensor, timestamp, user],]
 	for i in range(len(sql)):
-		points.append([sql[i]["long"], sql[i]["lat"] ,sql[i]["sensor"] ,sql[i]["timestamp"] ,sql[i]["user"] ])
+		points.append([sql[i]["long"], sql[i]["lat"], sql[i]["sensor"], sql[i]["timestamp"], sql[i]["user"]])
 
 	features = geojson_pointfeature(points)
 
 	featurecollection_general = geojson_featurecollection(features)
 
-	return render_template("blank.html", title = "general", geojson = featurecollection_general, style = 'dark', night = True)
+	return render_template("blank.html", title="general", geojson=featurecollection_general, style='dark', night=True)
 
   	
 @app.route("/admin")
@@ -120,7 +121,7 @@ def admin():
 def map_points():
 	npoints = int(request.args.get('n'))
 	geojson = geojson_rdm_points(npoints)
-	return render_template("blank.html", title ="mappoints", geojson = geojson)
+	return render_template("blank.html", title="mappoints", geojson=geojson)
 
 
 @app.route("/inputapplocation", methods=['POST', 'GET'])
@@ -138,7 +139,7 @@ def map_location():
 			return make_response(jsonify({"message": "must be JSON, its probably a string"}), 405)
 		# return res
 		print(f'the type of geojson here is {type(jsonlocation)}.')
-		return render_template("blank.html", title ="input app location", geojson = jsonlocation)
+		return render_template("blank.html", title="input app location", geojson=jsonlocation)
 	else:
 		return render_template("inputapplocation.html")
 
@@ -146,7 +147,7 @@ def map_location():
 @app.route("/lastmap", methods=['GET'])
 def map_last_map():
 	global featurecollection
-	return render_template("blank.html", title ="lastmap", geojson = featurecollection)
+	return render_template("blank.html", title="lastmap", geojson=featurecollection)
 
 
 @app.route('/checkjson', methods=['POST', 'GET'])
@@ -217,7 +218,7 @@ def store_route(json_request):
 	with open(f'{path}/{name}.txt', 'w') as file:
 			file.write(str(json_request))
 
-	#converts a json from app to a geojson
+	# converts a json from app to a geojson
 	points = read_myjson(json_request)
 	# save in Database SQL
 	print(store_data(points))
@@ -227,7 +228,6 @@ def store_route(json_request):
 	global featurecollection
 	featurecollection = geojson_featurecollection(features)
 
-	# res = {"timestamp":json["info"][0]["timestamp"], "size":len(json["points"])}
 	return 200, json_request
 
 
@@ -240,7 +240,7 @@ def errorhandler(e):
 
 def apology(msg, code=400):
 	msg_site = msg + "<br>code: " + str(code)
-	return render_template("apology.html", title = f"error: {code}", content = msg_site )
+	return render_template("apology.html", title=f"error: {code}", content=msg_site)
 
 
 # Listen for errors
@@ -248,5 +248,7 @@ for code in default_exceptions:
     app.errorhandler(code)(errorhandler)
 
 
+
 # trying without app.run to heroku
 # app.run(host='0.0.0.0', port=5000, debug=False) # Run the Application
+
