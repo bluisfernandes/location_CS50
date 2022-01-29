@@ -136,3 +136,4 @@ texto.txt
 # replit
 .replit
 poetry.lock
+pyproject.toml
