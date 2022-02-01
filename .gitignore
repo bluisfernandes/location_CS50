@@ -131,3 +131,9 @@ dmypy.json
 # files
 storage/
 test.py
+texto.txt
+
+# replit
+.replit
+poetry.lock
+pyproject.toml
